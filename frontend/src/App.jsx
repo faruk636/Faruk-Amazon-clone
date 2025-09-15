@@ -1,9 +1,12 @@
 import React from 'react'
 import "./App.css";
+import Landing from './Pages/Landing/Landing';
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+    <Landing/>
+    </>
   )
 }
 
