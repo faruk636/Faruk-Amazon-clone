@@ -11,6 +11,7 @@ const CarouselEffect = () => {
         infiniteLoop={true}
         showIndicators={false}
         showThumbs={false}
+        showStatus={false}
       >
         {img.map((imgItem) => {
           return <img src={imgItem} alt="carousel" />;
