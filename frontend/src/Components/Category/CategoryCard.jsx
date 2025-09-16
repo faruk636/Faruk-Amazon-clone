@@ -1,5 +1,6 @@
-import {Link} from 'react-router-dom'
-import classes from './category.module.css'
+import {Link} from 'react-router-dom';
+
+
 
 const CategoryCard = ({data}) => {
   return (

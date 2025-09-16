@@ -232,19 +232,24 @@ const Header = () => {
 
               {/* Returns & Orders */}
               <li className="cursor-pointer hover:outline-1 hover:outline-white rounded p-2">
-                <p className="text-[12px]">Returns</p>
-                <span className="font-bold">& Orders</span>
+                <NavLink to="/orders">
+                  <p className="text-[12px]">Returns</p>
+                  <span className="font-bold">& Orders</span>
+                </NavLink>
               </li>
 
               {/* Cart */}
               <li className="cursor-pointer hover:outline-1 hover:outline-white rounded p-2 flex items-center">
-                <div className="relative flex items-center">
+                <NavLink to='/cart'>
+                   <div className="relative flex items-center">
                   <BiCart size={28} />
                   <span className="absolute -top-1.5 left-2  text-[#f08804] font-bold text-sm px-1 rounded-full">
                     0
                   </span>
                 </div>
                 <p className="font-bold ml-1">Cart</p>
+                </NavLink>
+               
               </li>
             </ul>
           </ul>
