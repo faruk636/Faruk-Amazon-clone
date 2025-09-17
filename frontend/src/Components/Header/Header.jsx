@@ -155,10 +155,16 @@ import { IoIosSearch } from "react-icons/io";
 import { BiCart } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import LowerHeader from "./LowerHeader";
+import { useContext } from "react";
+import { dataContext } from "../DataProvider/DataProvider";
 
 const Header = () => {
+
+
+  const [{cart},dispatch] = useContext(dataContext)
+
   return (
-    <>
+    <section className="sticky top-0 z-[100]">
       <header className="bg-[#131921] text-white flex items-center justify-center h-auto md:h-[60px]">
         <nav className="w-[98%] flex items-center justify-center">
           <ul className="flex flex-col md:flex-row items-center justify-center w-full list-none gap-[2px]">
@@ -244,7 +250,7 @@ const Header = () => {
                    <div className="relative flex items-center">
                   <BiCart size={28} />
                   <span className="absolute -top-1.5 left-2  text-[#f08804] font-bold text-sm px-1 rounded-full">
-                    0
+                    {cart.length}
                   </span>
                 </div>
                 <p className="font-bold ml-1">Cart</p>
@@ -256,7 +262,7 @@ const Header = () => {
         </nav>
       </header>
       <LowerHeader />
-    </>
+    </section>
   );
 };
 

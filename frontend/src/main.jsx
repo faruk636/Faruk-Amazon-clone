@@ -2,13 +2,16 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import {BrowserRouter} from  'react-router-dom'
+import { BrowserRouter } from "react-router-dom";
+import DataProvider from "./Components/DataProvider/DataProvider.jsx";
+import { initialState, reducer } from "./Components/Utils/reducer.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-  
-   <BrowserRouter>
-      <App />
- </BrowserRouter>
+    <BrowserRouter>
+      <DataProvider reducer={reducer} initialState={initialState}>
+        <App />
+      </DataProvider>
+    </BrowserRouter>
   </StrictMode>
 );
