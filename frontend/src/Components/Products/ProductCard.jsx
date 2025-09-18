@@ -6,20 +6,15 @@ import { dataContext } from "../DataProvider/DataProvider";
 import {Type} from '../Utils/action.type'
 
 
-const ProductCard = ({ product, flex, description }) => {
-
-
-  const [{cart},dispatch]=useContext(dataContext)
+const ProductCard = ({ product, flex, description, renderAdd, smallImg }) => {
+  const [{ cart }, dispatch] = useContext(dataContext);
 
   const addToCart = () => {
     dispatch({
       type: Type.ADD_TO_CART,
       item: product,
     });
-    
   };
-  
-
 
   return (
     <>
@@ -35,7 +30,7 @@ const ProductCard = ({ product, flex, description }) => {
             src={product.image}
             alt="product image"
             className={`p-[10px] w-[100%] contain-content h-[200px] ${
-              flex ? "w-[300px] h-auto" : ""
+              flex && smallImg ?'w-[100px] h-auto' :flex? "w-[300px] h-auto" : ""
             }`}
           />
         </Link>
@@ -57,16 +52,16 @@ const ProductCard = ({ product, flex, description }) => {
             {/* price */}
             <CurrencyFormater amount={product.price} />
           </div>
-          
+          {renderAdd && (
             <button
-             onClick={addToCart}
+              onClick={addToCart}
               className={` group-hover:block py-[5px] px-[10px] font-bold cursor-pointer border-none bg-primary-color my-[10px] absolute bottom-0 left-0 rounded-4xl hover:bg-primary-shade ${
                 flex ? "block static w-36 mr-[40px]" : "hidden w-full"
               }`}
             >
               Add to Cart
             </button>
-
+          )}
         </div>
       </div>
     </>

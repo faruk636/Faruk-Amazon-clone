@@ -30,7 +30,13 @@ const Products = () => {
    {
     isLoading ? <Loader/> : (<section className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] max-w-[1450px] gap-[50px] my-[100px] ml-6">
       {products?.map((singleProduct) => {
-        return <ProductCard product={singleProduct} key={singleProduct.id} />;
+        return (
+          <ProductCard
+            product={singleProduct}
+            key={singleProduct.id}
+            renderAdd={true}
+          />
+        );
       })}
     </section>)
    }

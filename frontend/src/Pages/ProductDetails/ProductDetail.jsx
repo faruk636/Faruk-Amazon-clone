@@ -35,12 +35,20 @@ const ProductDetail = () => {
 
   return (
     <LayOut>
-      {
-        isLoading ? <Loader/> : <div>
-        {detail && <ProductCard product={detail} flex={true} description ={true}/>}
-      </div>
-      }
-      
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          {detail && (
+            <ProductCard
+              product={detail}
+              flex={true}
+              description={true}
+              renderAdd={true}
+            />
+          )}
+        </div>
+      )}
     </LayOut>
   );
 }
