@@ -163,6 +163,10 @@ const Header = () => {
 
   const [{cart},dispatch] = useContext(dataContext)
 
+  const totalCart = cart.reduce((amount,value)=>{
+    return value.amount+amount
+  },0)
+
   return (
     <section className="sticky top-0 z-[100]">
       <header className="bg-[#131921] text-white flex items-center justify-center h-auto md:h-[60px]">
@@ -246,16 +250,15 @@ const Header = () => {
 
               {/* Cart */}
               <li className="cursor-pointer hover:outline-1 hover:outline-white rounded p-2 flex items-center">
-                <NavLink to='/cart'>
-                   <div className="relative flex items-center">
-                  <BiCart size={28} />
-                  <span className="absolute -top-1.5 left-2  text-[#f08804] font-bold text-sm px-1 rounded-full">
-                    {cart.length}
-                  </span>
-                </div>
-                <p className="font-bold ml-1">Cart</p>
+                <NavLink to="/cart">
+                  <div className="relative flex items-center">
+                    <BiCart size={28} />
+                    <span className="absolute -top-1.5 left-2  text-[#f08804] font-bold text-sm px-1 rounded-full">
+                      {totalCart}
+                    </span>
+                  </div>
+                  <p className="font-bold ml-1">Cart</p>
                 </NavLink>
-               
               </li>
             </ul>
           </ul>

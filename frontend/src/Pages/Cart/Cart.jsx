@@ -4,13 +4,32 @@ import { dataContext } from "../../Components/DataProvider/DataProvider";
 import ProductCard from "../../Components/Products/ProductCard";
 import CurrencyFormater from "../../Components/CurrencyFormater/CurrencyFormater";
 import { Link } from "react-router-dom";
+import {Type} from '../../Components/Utils/action.type'
+import { TiArrowSortedUp } from "react-icons/ti";
+import { TiArrowSortedDown } from "react-icons/ti";
 
 const Cart = () => {
   const [{ cart }, dispatch] = useContext(dataContext);
 
-  const cartTotal= cart.reduce((amount,value)=>{
-    return value.price + amount
-  },0)
+  const cartTotal = cart.reduce((amount, value) => {
+    return value.price * value.amount + amount;
+  }, 0);
+
+  const increment= (item)=>{
+    dispatch(
+      {
+        type:Type.ADD_TO_CART,
+        item
+      }
+    )
+  }
+
+  const decrement = (id)=>{
+    dispatch({
+      type:Type.REMOVE_FROM_CART,
+      id
+    })
+  }
 
   return (
     <LayOut>
@@ -24,16 +43,36 @@ const Cart = () => {
             {cart?.length === 0 ? (
               <p>Oops you cart is empty</p>
             ) : (
-              cart?.map((item, i) => (
-                <ProductCard
-                  key={i}
-                  product={item}
-                  flex={true}
-                  description={true}
-                  renderAdd={false}
-                  smallImg={true}
-                />
-              ))
+              cart?.map((item, i) => {
+                return (
+                  <section className="flex gap-3.5">
+                    <ProductCard
+                      key={i}
+                      product={item}
+                      flex={true}
+                      description={true}
+                      renderAdd={false}
+                      smallImg={true}
+                    />
+                    <div className="flex flex-col gap-1.5 items-center justify-center">
+                      <button
+                        onClick={() => increment(item)}
+                        className="py-1.5 px-4 cursor-pointer font-bold bg-white"
+                      >
+                        <TiArrowSortedUp size={20} className="hover:bg-primary-shade"/>
+                      </button>
+                      <div>{item.amount}</div>
+                      <button
+                        onClick={() => decrement(item.id)}
+                        className="py-1.5 px-4 cursor-pointer font-bold bg-white"
+                      >
+                        <TiArrowSortedDown size={20} className="hover:bg-primary-shade"/>
+                      </button>
+                    </div>
+                  </section>
+                );
+                
+              })
             )}
           </div>
         </div>
