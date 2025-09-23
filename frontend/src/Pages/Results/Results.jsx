@@ -8,11 +8,11 @@ import Loader from "../../Components/Loader/Loader";
 const Results = () => {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-   
+
   const { categoryType } = useParams();
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const fetchResults = async () => {
       try {
         const { data } = await axios.get(
@@ -23,31 +23,37 @@ const Results = () => {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
       }
     };
     fetchResults();
   }, []);
 
+  console.log(results);
   return (
     <LayOut>
-      {
-        isLoading ? <Loader/> : (<>
-        <div>
-          <h1 style={{ padding: "30px", fontWeight: "bold" }}>Results</h1>
-          <p style={{ padding: "30px" }}>Category/ {categoryType}</p>
-        </div>
-        <hr />
-        <section className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] max-w-[1450px] gap-[40px] my-[100px] ml-6">
-          {results?.map((singleResults) => {
-            return (
-              <ProductCard product={singleResults} key={singleResults.id} />
-            );
-          })}
-        </section>
-        </>)
-      }
-        
-      
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div>
+            <h1 style={{ padding: "30px", fontWeight: "bold" }}>Results</h1>
+            <p style={{ padding: "30px" }}>Category/ {categoryType}</p>
+          </div>
+          <hr />
+          <section className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] max-w-[1450px] gap-[40px] my-[100px] ml-6">
+            {results?.map((singleResults) => {
+              return (
+                <ProductCard
+                  product={singleResults}
+                  key={singleResults.id}
+                  renderAdd={true}
+                />
+              );
+            })}
+          </section>
+        </>
+      )}
     </LayOut>
   );
 };

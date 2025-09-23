@@ -1,155 +1,3 @@
-// import { SlLocationPin } from "react-icons/sl";
-// import { IoIosSearch } from "react-icons/io";
-// import { BiCart } from "react-icons/bi";
-// import { Link, NavLink } from "react-router-dom";
-
-// const Header = () => {
-//   return (
-//     <section className="">
-//       <section>
-//         <div>
-//           <Link to="/">
-//             <img
-//               src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
-//               alt="amazon logo"
-//             />
-//           </Link>
-//           <div>
-//             <span>
-//               <SlLocationPin />
-//             </span>
-//             <div>
-//               <p>Deliver to</p>
-//               <span>Ethiopia</span>
-//             </div>
-//           </div>
-//         </div>
-//         <div>
-//           {/* Search */}
-//           <select name="" id="">
-//             <option value="All">ALL</option>
-//           </select>
-//           <input type="text" placeholder="Search Amazon" />
-//           <IoIosSearch />
-//         </div>
-//         <div>
-//           <div>
-//             <img
-//               src="https://pngimg.com/uploads/flags/flags_PNG14592.png"
-//               alt="usa"
-//             />
-//             <select name="" id="">
-//               <option value="ENG">ENG</option>
-//             </select>
-//           </div>
-//           <Link to=''>
-//             <p>Hello, Faruk</p>
-//             <select name="" id="">
-//               <option value="Account & Lists">Account & Lists</option>
-//             </select>
-//           </Link>
-//           <Link to=''>
-//             <p>Returns</p>
-//             <span>& Orders</span>
-//           </Link>
-//           <Link to=''>
-//             <div>
-//               <BiCart />
-//               <span>0</span>
-//             </div>
-//             <p>Cart</p>
-//           </Link>
-//         </div>
-//       </section>
-//     </section>
-//   );
-// };
-
-// export default Header;
-
-// const Header = () => {
-//   return (
-//     <header className="bg-[#131921] text-white flex items-center justify-center h-[60px]">
-//       <nav className="w-[95%]">
-//         <ul className="flex items-center gap-[8px]">
-//           <li className="max-w-[134px]">
-//             <NavLink to="/">
-//               <img
-//                 className="w-[80%] pt-[5px] align-middle"
-//                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
-//                 alt=""
-//               />
-//             </NavLink>
-//           </li>
-//           <li>
-//             <NavLink
-//               to="#"
-//               className="flex items-center justify-center gap-[3px] font-bold p-[5px]"
-//             >
-//               <SlLocationPin />
-//               <p className="flex flex-col leading-3.5">
-//                 <span className="text-[12px] opacity-75 font-medium">
-//                   Deliver to{" "}
-//                 </span>
-//                 Ethiopia
-//               </p>
-//             </NavLink>
-//           </li>
-//           <li className="flex items-start justify-center flex-1 rounded-b-xl overflow-hidden w-[100%] ">
-//             <select name="" id="" className="p-[10px] font-bold">
-//               <option value="All">All</option>
-//             </select>
-//             <input
-//               type="text"
-//               placeholder="Search Amazon"
-//               className="flex-1 p-2.5 font-bold border-none outline-none bg-white text-black"
-//             />
-//             <IoIosSearch />
-//           </li>
-
-//           <li>
-//             <NavLink to="#">
-//               <img
-//                 className="w-[2vw]"
-//                 src="https://pngimg.com/uploads/flags/flags_PNG14592.png"
-//                 alt="usa"
-//               />
-//               <select name="" id="">
-//                 <option value="EN">EN</option>
-//               </select>
-//             </NavLink>
-//           </li>
-//           <li>
-//             <NavLink>
-//               <p>Hello, Faruk</p>
-//               <select name="" id="">
-//                 <option value="Account & Lists">Account & Lists</option>
-//               </select>
-//             </NavLink>
-//           </li>
-//           <li>
-//             <Link to="">
-//               <p>
-//                 Returns <span>& Orders</span>
-//               </p>
-//             </Link>
-//           </li>
-//           <li>
-//             <Link>
-//               <div>
-//                 <BiCart />
-//                 <span>0</span>
-//               </div>
-//               <p>Cart</p>
-//             </Link>
-//           </li>
-//         </ul>
-//       </nav>
-//     </header>
-//   );
-// };
-
-// export default Header;
 import { SlLocationPin } from "react-icons/sl";
 import { IoIosSearch } from "react-icons/io";
 import { BiCart } from "react-icons/bi";
@@ -157,15 +5,14 @@ import { Link, NavLink } from "react-router-dom";
 import LowerHeader from "./LowerHeader";
 import { useContext } from "react";
 import { dataContext } from "../DataProvider/DataProvider";
+import {auth} from '../Utils/firebase'
 
 const Header = () => {
+  const [{ cart, user }, dispatch] = useContext(dataContext);
 
-
-  const [{cart},dispatch] = useContext(dataContext)
-
-  const totalCart = cart.reduce((amount,value)=>{
-    return value.amount+amount
-  },0)
+  const totalCart = cart.reduce((amount, value) => {
+    return value.amount + amount;
+  }, 0);
 
   return (
     <section className="sticky top-0 z-[100]">
@@ -233,11 +80,31 @@ const Header = () => {
               </li>
 
               {/* Account & Lists */}
-              <li className="cursor-pointer hover:outline-1 hover:outline-white rounded p-2">
-                <p className="text-[12px]">Hello, Faruk</p>
-                <select className="bg-transparent font-bold">
-                  <option value="Account & Lists">Account & Lists</option>
-                </select>
+              <li className="cursor-pointer hover:outline-1 hover:outline-white rounded p-2 text-left">
+                <Link to={!user && "/auth"}>
+                  {user ? (
+                    <>
+                      <p className="text-[12px]">
+                        Hello, {user?.email?.split("@")[0]}
+                      </p>
+                      <span
+                        className="bg-transparent font-bold"
+                        onClick={() => {
+                          auth.signOut();
+                        }}
+                      >
+                        Sign Out
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-[12px]">Hello, Sign in</p>
+                      <select className="bg-transparent font-bold">
+                        <option value="Account & Lists">Account & Lists</option>
+                      </select>
+                    </>
+                  )}
+                </Link>
               </li>
 
               {/* Returns & Orders */}

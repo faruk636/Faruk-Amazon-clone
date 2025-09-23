@@ -1,7 +1,8 @@
 import {Type} from './action.type'
 
 export const initialState = {
-    cart:[]
+    cart:[],
+    user:null
 }
 
 export const reducer = (state,action)=>{
@@ -34,6 +35,11 @@ switch (action.type) {
                 newBasket.splice(index,1)
             }
         } 
+    case Type.ADD_USER:
+        return {
+            ...state,
+            user:action.item
+        }
 
         return {
             ...state,
