@@ -45,6 +45,11 @@ switch (action.type) {
             ...state,
             cart:newBasket
         }
+    case Type.EMPTY_CART:
+        return{
+            ...state,
+            cart:[]
+        }
 
 
     default:

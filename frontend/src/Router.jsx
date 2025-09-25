@@ -1,11 +1,17 @@
-import {Route,Routes} from 'react-router-dom'
-import Landing from './Pages/Landing/Landing'
-import SignUp from './Pages/Auth/SignUp';
-import Payment from './Pages/Payment/Payment';
-import Orders from './Pages/Orders/Orders';
-import Cart from './Pages/Cart/Cart';
-import Results from './Pages/Results/Results';
-import ProductDetail from './Pages/ProductDetails/ProductDetail';
+import { Route, Routes } from "react-router-dom";
+import Landing from "./Pages/Landing/Landing";
+import SignUp from "./Pages/Auth/SignUp";
+import Payment from "./Pages/Payment/Payment";
+import Orders from "./Pages/Orders/Orders";
+import Cart from "./Pages/Cart/Cart";
+import Results from "./Pages/Results/Results";
+import ProductDetail from "./Pages/ProductDetails/ProductDetail";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  "pk_test_51SAVaJ0Qeitc5PBZw7yJc71h3RBbPueEY3HOtAuROhsECPqopXcGBqOxOtOwjC1yfy277HQUrhFIxLsKvbZQooqh009ZtO0dkd"
+);
 
 const Router = () => {
   return (
@@ -13,7 +19,14 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/auth" element={<SignUp />} />
-        <Route path="/payments" element={<Payment />} />
+        <Route
+          path="/payments"
+          element={
+            <Elements stripe={stripePromise}>
+              <Payment />
+            </Elements>
+          }
+        />
         <Route path="/orders" element={<Orders />} />
         <Route path="/category/:categoryType" element={<Results />} />
         <Route path="/products/:productId" element={<ProductDetail />} />
@@ -21,6 +34,6 @@ const Router = () => {
       </Routes>
     </>
   );
-}
+};
 
-export default Router
+export default Router;

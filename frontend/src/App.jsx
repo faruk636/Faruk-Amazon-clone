@@ -5,6 +5,8 @@ import {onAuthStateChanged} from 'firebase/auth'
 import {dataContext} from './Components/DataProvider/DataProvider'
 import { Type } from './Components/Utils/action.type';
 import Router from './Router';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   
@@ -33,6 +35,7 @@ onAuthStateChanged(auth,(authUser)=>{
   return (
     <>
     <Router/>
+    <ToastContainer/>
     </>
   )
 }
