@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link ,useNavigate,useLocation} from "react-router-dom";
 import { auth } from "../../Components/Utils/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -20,6 +20,9 @@ const SignUp = () => {
   const [state,dispatch]= useContext(dataContext)
 
   const navigate= useNavigate();
+  const useNavigateData = useLocation()
+
+  // console.log(useNavigateData)
 
 
   const handleAuth = (e) => {
@@ -35,7 +38,7 @@ const SignUp = () => {
         dispatch({type:Type.ADD_USER,item:user})
         // console.log(state?.user)
         setLoading({...loading,signUp:false})
-        navigate('/')
+        navigate(useNavigateData?.state?.redirect || '/')
         
       })
       .catch((error) => {
@@ -54,7 +57,7 @@ const SignUp = () => {
         // console.log(state?.user)
         
         setLoading({ ...loading, signIn: false });
-        navigate('/')
+        navigate(useNavigateData?.state?.redirect || "/");
       })
       .catch((error) => {
         console.log(error.message)
@@ -79,10 +82,13 @@ const SignUp = () => {
       {/* Sign-in Card */}
       <div className="w-full max-w-sm border border-gray-300 rounded-md p-6 bg-white shadow-sm">
         {/* Title */}
-        {
-          error.length !=0 && <p className="text-red-600 text-center">{error}</p>
-        }
+        {error.length != 0 && (
+          <p className="text-red-600 text-center">{error}</p>
+        )}
         <h1 className="text-2xl font-semibold mb-4">Sign-in</h1>
+        {useNavigateData?.state?.msg && (
+          <small className="text-red-600 py-3.3">{useNavigateData?.state?.msg}</small>
+        )}
 
         {/* Email */}
         <div className="mb-3">
@@ -119,7 +125,11 @@ const SignUp = () => {
           onClick={handleAuth}
           className="w-full bg-primary-color hover:bg-primary-shade text-sm font-medium py-2 rounded-sm border border-none"
         >
-          {loading.signIn ? <ClipLoader size={15} color="#000" className="flex items-center" /> : "Sign In"}
+          {loading.signIn ? (
+            <ClipLoader size={15} color="#000" className="flex items-center" />
+          ) : (
+            "Sign In"
+          )}
         </button>
 
         {/* Terms */}
@@ -137,7 +147,7 @@ const SignUp = () => {
           className="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-sm py-2 border border-gray-400 rounded-sm"
         >
           {loading.signUp ? (
-            <ClipLoader size={15} color="#000" className="flex items-center"/>
+            <ClipLoader size={15} color="#000" className="flex items-center" />
           ) : (
             "Create your Amazon Account"
           )}
