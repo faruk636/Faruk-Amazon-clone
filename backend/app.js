@@ -15,7 +15,7 @@ app.get('/',(req,res)=>{
 })
 
 app.post('/payment/create',async (req,res)=>{
-    const amount =req.query.amount;
+    const amount =parseFloat(req.query.amount);
     if (amount>0) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
